@@ -1,0 +1,8 @@
+export { default as authRoutes } from './auth.routes.js'
+export { default as rolesRoutes } from './roles.routes.js'
+export { default as topicsRoutes } from './topics.routes.js'
+export { default as formsRoutes } from './form.routes.js'
+export { default as responseRoutes } from './response.routes.js'
+export { default as coursesRoutes } from './courses.routes.js'
+export { default as usersRoutes } from './users.routes.js'
+export { default as chargeDataRoutes } from './chargedata.routes.js'
