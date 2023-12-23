@@ -13,6 +13,6 @@ export function ProtectedRoute() {
 export function ProtectedForm() {
     const  { checkUser } = useResponses();
 
-    if (!checkUser()) return window.history.back();
+    if (!checkUser()) console.log("No hay cookie");
     return <Outlet />;
 }
