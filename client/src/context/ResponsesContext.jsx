@@ -53,6 +53,7 @@ export const ResponsesProvider = ({ children }) => {
     //ValidateCookie
     const checkUser = () => {
         const cookies = Cookies.get();
+        console.log(cookies)
         if (!cookies.user) return false
         const user = JSON.parse(cookies.user.substring(2));
         if (!user.userCode) return false
