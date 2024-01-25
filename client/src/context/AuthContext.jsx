@@ -1,8 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react'
-import { loginRequest, registerRequest, verifyTokenRequest, logoutRequest } from '../api/auth.js'
-import Cookies from 'js-cookie'
+import { loginRequest, registerRequest, verifyTokenRequest } from '../api/auth.js'
 import { ContextErrors } from './Alerts.jsx';
-import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext()
 
@@ -22,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await registerRequest(user);
             if (res.status === 200) {
-                setUser(res.data);
+                setUser(res.data.data);
                 setIsAuthenticated(true);
             }
         } catch (error) {
@@ -33,7 +31,9 @@ export const AuthProvider = ({ children }) => {
     const signin = async (user) => {
         try {
             const res = await loginRequest(user)
-            setUser(res.data)
+            const data = res.data.data
+            localStorage.setItem('session', JSON.stringify(data))
+            setUser(data)
             setIsAuthenticated(true)
         } catch (error) {
             ContextErrors(errors, setErrors)
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const res = await logoutRequest();
+            localStorage.removeItem('session')
             setUser(null)
             setIsAuthenticated(false)
             window.location.href = '/';
@@ -53,17 +53,17 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkLogin = async () => {
-            const cookies = Cookies.get();
-            if (!cookies.token) {
+            const session = JSON.parse(localStorage.getItem('session'))
+            if (!session) {
                 setIsAuthenticated(false);
                 setLoading(false);
                 return;
             }
             try {
-                const res = await verifyTokenRequest(cookies.token);
+                const res = await verifyTokenRequest(session.token);
                 if (!res.data) return setIsAuthenticated(false);
                 setIsAuthenticated(true);
-                setUser(res.data)
+                setUser(res.data.data)
                 setLoading(false);
             } catch (error) {
                 setIsAuthenticated(false);
