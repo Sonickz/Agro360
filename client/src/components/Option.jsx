@@ -85,7 +85,7 @@ function Option({ dataQuestion, dataInstructor, setValid, actualIndex }) {
                             <input disabled type="radio" id="opcion1" name="escala" value="1" className="hidden peer" />
                             <label
                                 htmlFor="opcion1"
-                                className={`${compValue() === '1' ? '!bg-gray-600' : ''} px-5 py-4 text-gray-800 bg-white border-2 border-gray-500 rounded-lg cursor-pointer peer-checked:bg-gray-300  ${value != '1' ? 'hover:bg-gray-100 hover:text-gray-600' : ''} text-3xl select-none`}
+                                className={`${compValue() === '1' ? '!bg-gray-400' : ''} px-5 py-4 text-gray-800 transition-all bg-white border-2 border-gray-500 rounded-lg cursor-pointer peer-checked:bg-gray-300  ${value != '1' ? 'hover:bg-gray-100 hover:text-gray-600' : ''} text-3xl select-none`}
                             >
                                 1
                             </label>
