@@ -186,7 +186,6 @@ export const getFormReport = async (req, res) => {
 
         //Hoja de calculo
         for (const response of responses) {
-            console.log(response)
             const questions = response.responses.map(object => object.question)
             const instructor = await Users.findById(response.instructor)
             const instructorNames = `${instructor.names} ${instructor.lastnames}`
@@ -259,11 +258,11 @@ export const getFormReport = async (req, res) => {
 
         const file = `Reporte de resultados Encuesta: ${id}.xlsx`;
         //Crear el archivo
-        workbook.xlsx.writeFile(file)
+        const stream = await workbook.xlsx.writeBuffer();
         // Enviar el archivo como respuesta a la solicitud GET
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', `attachment; filename=${file}`);
-        workbook.xlsx.write(res).then(() => res.end())
+        res.end(stream)
     } catch (error) {
         errorResponse(res, error)
     }
